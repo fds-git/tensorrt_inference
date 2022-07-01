@@ -1,3 +1,5 @@
+# Репозиторий содержит скрипты конвертации моделей из pytorch в onnx и tensorrt а также скрипты для оценки производительности моделей #
+
 Запуск воркера:
 1. sudo docker build -t app -f DockerFile .
 2. a) sudo docker run --gpus all --name kotya -d -it app
