@@ -79,7 +79,7 @@ python test_trt.py -n model_name.trt -prec fp32 -infer stat
 
 ### Кратное описание остальных скриптов ###
 
-Тестирование pytorch модели
+#### Тестирование pytorch модели ####
 
 python test_pytorch.py -p cuda -prec fp32 -sh 1,3,112,112
 
