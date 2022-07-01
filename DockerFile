@@ -1,0 +1,43 @@
+#FROM nvcr.io/nvidia/tensorrt:21.12-py3
+FROM nvcr.io/nvidia/tensorrt:22.05-py3
+
+#RUN apk update && apk upgrade && apk add bash
+RUN apt-get update && apt-get install
+RUN apt-get install python3-pip
+
+ENV PIP_INSTALL="python -m pip --no-cache-dir install --upgrade"
+
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
+RUN $PIP_INSTALL numpy
+
+# Эти команды из туториала по установке pytorch (версии пакетов должны быть совместимы с версией драйвера видеокарты)
+RUN $PIP_INSTALL torch==1.11.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+RUN $PIP_INSTALL torchvision==0.12.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+RUN $PIP_INSTALL torchaudio==0.11.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+
+RUN $PIP_INSTALL onnxruntime-gpu
+
+RUN $PIP_INSTALL onnx=='1.10.1'
+
+# Надо обновить tensorrt, потому что в tensorrt:22.05-py3 версия 8.2.5.1
+# https://pypi.org/project/nvidia-tensorrt/
+
+#RUN $PIP_INSTALL nvidia-pyindex
+#RUN $PIP_INSTALL nvidia-tensorrt
+
+# В контейнере создастся папка app в качестве рабочего каталога
+WORKDIR /app
+
+# Из репозитория (где DockerFile) все содердимое будет передесено в контейнер (src и т.д.)
+COPY . /app
+
+# Если запустить контейнер в интерактивном режиме, то попадем в bash
+ENTRYPOINT [ "bash" ]
+
+# Если запустить контейнер в интерактивном режиме, то попадем в python
+#ENTRYPOINT [ "python3" ]
+
+# Если запустить контейнер не в интерактивном режиме, то запустится скрипт после ENTRYPOINT
+#CMD ["app.py"]
