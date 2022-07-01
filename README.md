@@ -159,10 +159,13 @@ python hard_dymanic_test.py res18_1-8-16x3x112x112_fp16.trt
 Первая команда на 8 батчах имеет ту же производительность что и 3-я команда. Вторая команда всегда немного быстрее чем 3-я команда с dinstat
 
 python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 8
+Average all batch time: 2.340 ms
 
 python test_trt.py -n res18_8x3x112x112_fp16.trt -prec fp32 -infer stat
+Average all batch time: 2.230 ms
 
 python test_trt.py -n res18_8x3x112x112_fp16.trt -prec fp32 -infer dinstat
+Average all batch time: 2.348 ms
 
 Вызовы команд с результатами по времени
 
@@ -180,6 +183,12 @@ Average all batch time: 1.215 ms
 
 python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 4
 Average all batch time: 1.595 ms
+
+python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 8
+Average all batch time: 2.343 ms
+
+python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 16
+Average all batch time: 5.077 ms
 
 -------------------------------------------------------------------------------------------------------
 
