@@ -159,8 +159,12 @@ python hard_dymanic_test.py res18_1-8-16x3x112x112_fp16.trt
 Первая команда на 8 батчах имеет ту же производительность что и 3-я команда. Вторая команда всегда немного быстрее чем 3-я команда с dinstat
 
 python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 8
+
 python test_trt.py -n res18_8x3x112x112_fp16.trt -prec fp32 -infer stat
+
 python test_trt.py -n res18_8x3x112x112_fp16.trt -prec fp32 -infer dinstat
+
+Вызовы команд с результатами по времени
 
 python test_trt.py -n res18_1x3x112x112_fp16.trt -prec fp32 -infer stat
 Average all batch time: 0.570 ms
@@ -184,6 +188,7 @@ Average all batch time: 1.595 ms
 Конвертация
 
 Для dynamic
+
 trtexec --onnx=res18_dynamic_batch_1_112.onnx --fp16 --workspace=1024 --minShapes=input:1x3x112x112 --optShapes=input:8x3x112x112 --maxShapes=input:16x3x112x112 --buildOnly --saveEngine=../trt/res18.trt
 
 trtexec --explicitBatch --onnx=mobilenet_dynamic.onnx \
@@ -194,6 +199,7 @@ trtexec --explicitBatch --onnx=mobilenet_dynamic.onnx \
         --saveEngine=mobilenet_dynamic.engine
 
 Для static (скрипт сам определит, что onnx модель статична и есть только единственный размер тензора)
+
 trtexec --onnx=res18_static_batch_1_112.onnx --fp16 --workspace=1024 --buildOnly --saveEngine=../trt/res18_static.trt
 
 Тестирование
