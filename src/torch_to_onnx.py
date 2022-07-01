@@ -59,7 +59,7 @@ if __name__ == "__main__":
   # load the model with weight to convert
   #model = MobilenetV3().eval().to('cpu')
   #model.load_state_dict(torch.load('../models/pytorch/pytorch_weights.pth'))
-  #model.load_state_dict(torch.load('../models/pytorch/face_quality_cr-fiqa_metro_mae_3,6_ep_3.pth'))
+  #model.load_state_dict(torch.load('../models/pytorch/face_quality_cr-fiqa_mt_mae_3,6_ep_3.pth'))
 
   #model = iresnet100(num_features=512).eval().to('cpu')
   #model.load_state_dict(torch.load('../models/pytorch/glint360k_cosface_r100_fp16_0.1.pth'))
