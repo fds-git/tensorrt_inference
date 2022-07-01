@@ -23,7 +23,7 @@ model_name.onnx может иметь динамический или стати
 Все остальные размерности должны быть фиксированы.
 Если model_name.onnx имеет динамический размер батча, то скрипт конвертации обязательно должен быть вызван с полным набором ключей:
 
-python onnx_to_tensorrt.py -s model_name.onnx -n new_model_name -prec fp16 -min 1 -opt 8 -max 16 -sh 3,112,112
+    python onnx_to_tensorrt.py -s model_name.onnx -n new_model_name -prec fp16 -min 1 -opt 8 -max 16 -sh 3,112,112
 
 - s - название исходной модели без абсолютного пути
 - n - имя сконвертированной модели
@@ -36,11 +36,11 @@ python onnx_to_tensorrt.py -s model_name.onnx -n new_model_name -prec fp16 -min 
 Если необходимо получить модель с фиксированным размером батча из onnx модели с динамическим размером батча,
 min, opt, max должны быть равны необходимому размеру батча:
 
-python onnx_to_tensorrt.py -s model_name.onnx -n new_model_name -prec fp16 -min 8 -opt 8 -max 8 -sh 3,112,112
+    python onnx_to_tensorrt.py -s model_name.onnx -n new_model_name -prec fp16 -min 8 -opt 8 -max 8 -sh 3,112,112
 
 Если model_name.onnx имеет статический размер батча, то скрипт необходимо вызвать с сокращенным набором ключей:
 
-python onnx_to_tensorrt.py -s rmodel_name.onnx -n new_model_name -prec fp16
+    python onnx_to_tensorrt.py -s rmodel_name.onnx -n new_model_name -prec fp16
 
 Скрипт сам определит единственно возможные размерности для данной модели. 
 На производительность итоговой tensorrt модели с фиксированным размером батча не влияет получена ли onnx модель из исходной pytorch
@@ -52,7 +52,7 @@ python onnx_to_tensorrt.py -s rmodel_name.onnx -n new_model_name -prec fp16
 
 Для проверки работоспособности и оценки производительности необходимо использовать следующий скрипт (если модель имеет динамический размер батча):
 
-python test_trt.py -n model_name.trt -prec fp32 -infer dinstat -bs 8 
+    python test_trt.py -n model_name.trt -prec fp32 -infer dinstat -bs 8 
 
 - n - название модели без абсолютного пути
 - bs - размер батча для тестирования модели
@@ -64,14 +64,14 @@ python test_trt.py -n model_name.trt -prec fp32 -infer dinstat -bs 8
 при этом чем сильнее bs будет отклоняться от оптимального значения, тем больше будет вреся обработки батча (по сравнению с моделью,
 которая оптимизирована только под этот размер батча)
 
--prec всегда должен быть равен fp32 даже для fp16 оптимизированных моделей, иначе быстродействие будет снижено
+    -prec всегда должен быть равен fp32 даже для fp16 оптимизированных моделей, иначе быстродействие будет снижено
 
 Если модель имеет статический размер батча, то -infer может быть равен как stat, так и dinstat. При этом во 2-м случае
 производительность будет немного снижена. Если модель имеет динамический размер батча, то -infer может быть равен только dinstat
 
 Если модель имеет статический размер батча, то в скрипт можно не передавать размер батча:
 
-python test_trt.py -n model_name.trt -prec fp32 -infer stat
+    python test_trt.py -n model_name.trt -prec fp32 -infer stat
 
 В этом случае скрипт получит всю информацию о форма данных из самой модели.
 
@@ -81,7 +81,7 @@ python test_trt.py -n model_name.trt -prec fp32 -infer stat
 
 #### Тестирование pytorch модели ####
 
-python test_pytorch.py -p cuda -prec fp32 -sh 1,3,112,112
+    python test_pytorch.py -p cuda -prec fp32 -sh 1,3,112,112
 
 - p - устройство для запуска модели, возможные значения: cpu или cuda
 - prec - данные какого типа буду сгенерированы, возможные значения: fp16 или fp32
@@ -94,7 +94,7 @@ python test_pytorch.py -p cuda -prec fp32 -sh 1,3,112,112
 
 #### Преобразование pytorch модели в onnx ####
 
-python torch_to_onnx.py -n res18 -bt static -sh 8,3,112,112
+    python torch_to_onnx.py -n res18 -bt static -sh 8,3,112,112
 
 - n - имя сконвертированной модели
 - bt - тип батча новой модели, возможные значения: static или dynamic
@@ -112,7 +112,7 @@ python torch_to_onnx.py -n res18 -bt static -sh 8,3,112,112
 
 #### Тестирование onnx модели ####
 
-python test_onnx.py -n res18_dynamic_batch_1x3x112x112.onnx -p trt -sh 8,3,112,112 -prec fp32
+    python test_onnx.py -n res18_dynamic_batch_1x3x112x112.onnx -p trt -sh 8,3,112,112 -prec fp32
 
 - n - имя модели для тестирования
 - p - provider для запуска модели, возможные значения: cpu, cuda, trt
@@ -126,7 +126,7 @@ python test_onnx.py -n res18_dynamic_batch_1x3x112x112.onnx -p trt -sh 8,3,112,1
 
 #### Сравнение расхождений выходов моделей (pytorch, onnx, trt) ####
 
-python error_checker.py -on model_static_batch_16_128.onnx -tn model_static_max_batch_16_128_fp32.trt
+    python error_checker.py -on model_static_batch_16_128.onnx -tn model_static_max_batch_16_128_fp32.trt
 
 - on - имя модели onnx
 - tn - имя модели tensorrt
@@ -144,7 +144,7 @@ python error_checker.py -on model_static_batch_16_128.onnx -tn model_static_max_
 
 #### Оценка производительности trt-модели с динамическим размером батча ####
 
-python hard_dymanic_test.py res18_1-8-16x3x112x112_fp16.trt
+    python hard_dymanic_test.py res18_1-8-16x3x112x112_fp16.trt
 
 - n - имя модели tensorrt
 
@@ -215,15 +215,11 @@ Average all batch time: 5.077 ms
 #### Перекрестная проверка: мои скрипты и trtexec ####
 
     python onnx_to_tensorrt.py -s res18_dynamic_batch_1x3x112x112.onnx -n res18 -prec fp32 -min 1 -opt 1 -max 1 -sh 3,112,112
-
     python test_trt.py -n res18_1x3x112x112_fp32.trt -prec fp32 -infer stat
-
     trtexec --shapes=input:1x3x112x112 --loadEngine=../models/trt/res18_1x3x112x112_fp32.trt
 
 Здесь для динамической onnx модели min opt max размеры тензоров не указывались, поэтому скрипт оптимизировал под 1,3,112,112
 
     trtexec --onnx=../models/onnx/res18_dynamic_batch_1x3x112x112.onnx --workspace=1024 --buildOnly --saveEngine=../models/trt/res18.trt
-
     trtexec --shapes=input:1x3x112x112 --loadEngine=../models/trt/res18.trt
-
     python test_trt.py -n res18.trt -prec fp32 -infer stat
