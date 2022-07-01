@@ -156,9 +156,11 @@ python hard_dymanic_test.py res18_1-8-16x3x112x112_fp16.trt
 
 #### Исследование производительности модели res18 в случае динамического и статического размера батча ####
 
-python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 8  # На 8 батчах имеет ту же производительность что и 3-я команда
-python test_trt.py -n res18_8x3x112x112_fp16.trt -prec fp32 -infer stat                # Всегда немного быстрее чем dinstat 3-я команда
-python test_trt.py -n res18_8x3x112x112_fp16.trt -prec fp32 -infer dinstat             # Всегда немного медленне, чем 2 команда
+Первая команда на 8 батчах имеет ту же производительность что и 3-я команда. Вторая команда всегда немного быстрее чем 3-я команда с dinstat
+
+python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 8
+python test_trt.py -n res18_8x3x112x112_fp16.trt -prec fp32 -infer stat
+python test_trt.py -n res18_8x3x112x112_fp16.trt -prec fp32 -infer dinstat
 
 python test_trt.py -n res18_1x3x112x112_fp16.trt -prec fp32 -infer stat
 Average all batch time: 0.570 ms
@@ -203,10 +205,15 @@ trtexec --shapes=input:8x3x112x112 --loadEngine=../trt/res18.tr
 #### Перекрестная проверка: мои скрипты и trtexec ####
 
 python onnx_to_tensorrt.py -s res18_dynamic_batch_1x3x112x112.onnx -n res18 -prec fp32 -min 1 -opt 1 -max 1 -sh 3,112,112
+
 python test_trt.py -n res18_1x3x112x112_fp32.trt -prec fp32 -infer stat
+
 trtexec --shapes=input:1x3x112x112 --loadEngine=../models/trt/res18_1x3x112x112_fp32.trt
 
 Здесь для динамической onnx модели min opt max размеры тензоров не указывались, поэтому скрипт оптимизировал под 1,3,112,112
+
 trtexec --onnx=../models/onnx/res18_dynamic_batch_1x3x112x112.onnx --workspace=1024 --buildOnly --saveEngine=../models/trt/res18.trt
+
 trtexec --shapes=input:1x3x112x112 --loadEngine=../models/trt/res18.trt
+
 python test_trt.py -n res18.trt -prec fp32 -infer stat
