@@ -161,33 +161,33 @@ python hard_dymanic_test.py res18_1-8-16x3x112x112_fp16.trt
     python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 8
 Average all batch time: 2.340 ms
 
-   python test_trt.py -n res18_8x3x112x112_fp16.trt -prec fp32 -infer stat
+    python test_trt.py -n res18_8x3x112x112_fp16.trt -prec fp32 -infer stat
 Average all batch time: 2.230 ms
 
-   python test_trt.py -n res18_8x3x112x112_fp16.trt -prec fp32 -infer dinstat
+    python test_trt.py -n res18_8x3x112x112_fp16.trt -prec fp32 -infer dinstat
 Average all batch time: 2.348 ms
 
 Вызовы команд с результатами по времени
 
-   python test_trt.py -n res18_1x3x112x112_fp16.trt -prec fp32 -infer stat
+    python test_trt.py -n res18_1x3x112x112_fp16.trt -prec fp32 -infer stat
 Average all batch time: 0.570 ms
 
-   python test_trt.py -n res18_1x3x112x112_fp16.trt -prec fp32 -infer dinstat
+    python test_trt.py -n res18_1x3x112x112_fp16.trt -prec fp32 -infer dinstat
 Average all batch time: 0.681 ms
 
-   python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 1
+    python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 1
 Average all batch time: 1.010 ms
 
-   python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 2
+    python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 2
 Average all batch time: 1.215 ms
 
-   python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 4
+    python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 4
 Average all batch time: 1.595 ms
 
-   python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 8
+    python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 8
 Average all batch time: 2.343 ms
 
-   python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 16
+    python test_trt.py -n res18_1-8-16x3x112x112_fp16.trt -prec fp32 -infer dinstat -bs 16
 Average all batch time: 5.077 ms
 
 -------------------------------------------------------------------------------------------------------
@@ -198,32 +198,32 @@ Average all batch time: 5.077 ms
 
 Для dynamic
 
-   trtexec --onnx=res18_dynamic_batch_1_112.onnx --fp16 --workspace=1024 --minShapes=input:1x3x112x112 --optShapes=input:8x3x112x112 --maxShapes=input:16x3x112x112 --buildOnly --saveEngine=../trt/res18.trt
+    trtexec --onnx=res18_dynamic_batch_1_112.onnx --fp16 --workspace=1024 --minShapes=input:1x3x112x112 --optShapes=input:8x3x112x112 --maxShapes=input:16x3x112x112 --buildOnly --saveEngine=../trt/res18.trt
 
-   trtexec --explicitBatch --onnx=mobilenet_dynamic.onnx --minShapes=data:1x3x224x224 --optShapes=data:3x3x224x224 --maxShapes=data:5x3x224x224 --shapes=data:3x3x224x224 --saveEngine=mobilenet_dynamic.engine
+    trtexec --explicitBatch --onnx=mobilenet_dynamic.onnx --minShapes=data:1x3x224x224 --optShapes=data:3x3x224x224 --maxShapes=data:5x3x224x224 --shapes=data:3x3x224x224 --saveEngine=mobilenet_dynamic.engine
 
 Для static (скрипт сам определит, что onnx модель статична и есть только единственный размер тензора)
 
-   trtexec --onnx=res18_static_batch_1_112.onnx --fp16 --workspace=1024 --buildOnly --saveEngine=../trt/res18_static.trt
+    trtexec --onnx=res18_static_batch_1_112.onnx --fp16 --workspace=1024 --buildOnly --saveEngine=../trt/res18_static.trt
 
 Тестирование
 
-   trtexec --shapes=input:8x3x112x112 --loadEngine=../trt/res18.tr
+    trtexec --shapes=input:8x3x112x112 --loadEngine=../trt/res18.tr
 
 -------------------------------------------------------------------------------------------------------
 
 #### Перекрестная проверка: мои скрипты и trtexec ####
 
-   python onnx_to_tensorrt.py -s res18_dynamic_batch_1x3x112x112.onnx -n res18 -prec fp32 -min 1 -opt 1 -max 1 -sh 3,112,112
+    python onnx_to_tensorrt.py -s res18_dynamic_batch_1x3x112x112.onnx -n res18 -prec fp32 -min 1 -opt 1 -max 1 -sh 3,112,112
 
-   python test_trt.py -n res18_1x3x112x112_fp32.trt -prec fp32 -infer stat
+    python test_trt.py -n res18_1x3x112x112_fp32.trt -prec fp32 -infer stat
 
-   trtexec --shapes=input:1x3x112x112 --loadEngine=../models/trt/res18_1x3x112x112_fp32.trt
+    trtexec --shapes=input:1x3x112x112 --loadEngine=../models/trt/res18_1x3x112x112_fp32.trt
 
 Здесь для динамической onnx модели min opt max размеры тензоров не указывались, поэтому скрипт оптимизировал под 1,3,112,112
 
-   trtexec --onnx=../models/onnx/res18_dynamic_batch_1x3x112x112.onnx --workspace=1024 --buildOnly --saveEngine=../models/trt/res18.trt
+    trtexec --onnx=../models/onnx/res18_dynamic_batch_1x3x112x112.onnx --workspace=1024 --buildOnly --saveEngine=../models/trt/res18.trt
 
-   trtexec --shapes=input:1x3x112x112 --loadEngine=../models/trt/res18.trt
+    trtexec --shapes=input:1x3x112x112 --loadEngine=../models/trt/res18.trt
 
-   python test_trt.py -n res18.trt -prec fp32 -infer stat
+    python test_trt.py -n res18.trt -prec fp32 -infer stat
