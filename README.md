@@ -191,12 +191,7 @@ Average all batch time: 1.595 ms
 
 trtexec --onnx=res18_dynamic_batch_1_112.onnx --fp16 --workspace=1024 --minShapes=input:1x3x112x112 --optShapes=input:8x3x112x112 --maxShapes=input:16x3x112x112 --buildOnly --saveEngine=../trt/res18.trt
 
-trtexec --explicitBatch --onnx=mobilenet_dynamic.onnx \
-        --minShapes=data:1x3x224x224 \  # kMIN shape
-        --optShapes=data:3x3x224x224 \  # kOPT shape
-        --maxShapes=data:5x3x224x224 \  # kMAX shape
-        --shapes=data:3x3x224x224 \     # Inference shape - this is like context->setBindingDimensions()
-        --saveEngine=mobilenet_dynamic.engine
+trtexec --explicitBatch --onnx=mobilenet_dynamic.onnx --minShapes=data:1x3x224x224 --optShapes=data:3x3x224x224 --maxShapes=data:5x3x224x224 --shapes=data:3x3x224x224 --saveEngine=mobilenet_dynamic.engine
 
 Для static (скрипт сам определит, что onnx модель статична и есть только единственный размер тензора)
 
