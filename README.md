@@ -210,6 +210,6 @@ trtexec --shapes=input:1x3x112x112 --loadEngine=../models/trt/res18_1x3x112x112_
 
 Здесь для динамической onnx модели min opt max размеры тензоров не указывались, поэтому скрипт оптимизировал под 1,3,112,112
 
-trtexec --onnx=../models/onnx/res18_dynamic_batch_1x3x112x112.onnx --workspace=1024 --buildOnly --saveEngine=../models/trt/res18.trt
-trtexec --shapes=input:1x3x112x112 --loadEngine=../models/trt/res18.trt
-python test_trt.py -n res18.trt -prec fp32 -infer stat
+   trtexec --onnx=../models/onnx/res18_dynamic_batch_1x3x112x112.onnx --workspace=1024 --buildOnly --saveEngine=../models/trt/res18.trt
+   trtexec --shapes=input:1x3x112x112 --loadEngine=../models/trt/res18.trt
+   python test_trt.py -n res18.trt -prec fp32 -infer stat
